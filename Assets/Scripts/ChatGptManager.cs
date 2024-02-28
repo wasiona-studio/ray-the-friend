@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using OpenAI;
@@ -19,8 +18,8 @@ public class ChatGptManager : MonoBehaviour
         instance = this;
     }
 
-    private OpenAIApi openAi = new OpenAIApi("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",
-        "org-hXczioOTdBD74Xyvool9Dhcz");
+    private OpenAIApi openAi = new("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",
+        "org-PYmOjgJQCr8fFOTF5Axjyz7E");
 
     private List<ChatMessage> messages = new();
 
