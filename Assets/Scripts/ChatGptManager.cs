@@ -9,16 +9,18 @@ public class ChatGptManager : MonoBehaviour
     public static ChatGptManager instance;
 
     public string voice;
-    
+
     public AudioSource dogSource;
     public AudioClip audioClip;
     public AWS_Manager awsManager;
+
     private void Awake()
     {
         instance = this;
     }
 
-    private OpenAIApi openAi = new OpenAIApi("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","org-hXczioOTdBD74Xyvool9Dhcz");
+    private OpenAIApi openAi = new OpenAIApi("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",
+        "org-hXczioOTdBD74Xyvool9Dhcz");
 
     private List<ChatMessage> messages = new();
 
@@ -33,16 +35,14 @@ public class ChatGptManager : MonoBehaviour
         AskChatGPT(startingPrompt);
     }
 
-    private void Update()
+
+    public void TestSpeech(string prompt)
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        awsManager.Speak(prompt, dogSource, () =>
         {
-            awsManager.Speak("GPT response is not available at the moment, please try later", dogSource, () =>
-            {
-                print("Playing sound");
-                output.text = GPTresponse;
-            });
-        }
+            print("Playing sound");
+            output.text = GPTresponse;
+        });
     }
 
     public async void AskChatGPT(string text)
@@ -76,9 +76,9 @@ public class ChatGptManager : MonoBehaviour
         GPTresponse = chatResponse.Content;
         print($"GPT: {GPTresponse}");
 
-       
-        awsManager.Speak(GPTresponse,dogSource, () =>
-        {        
+
+        awsManager.Speak(GPTresponse, dogSource, () =>
+        {
             print("Playing sound");
             output.text = GPTresponse;
         });
