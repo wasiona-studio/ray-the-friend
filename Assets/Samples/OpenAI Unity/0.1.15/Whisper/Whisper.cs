@@ -9,49 +9,47 @@ namespace OpenAI
         [SerializeField] private Button recordButton;
         [SerializeField] private Image progressBar;
         [SerializeField] private TextMeshProUGUI message;
-        
-        private readonly string fileName = "output.wav";
-        private readonly int duration = 5;
-        
-        private AudioClip clip;
-        private bool isRecording;
-        private float time;
-        private OpenAIApi openai = new ("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",
-            "org-PYmOjgJQCr8fFOTF5Axjyz7E");
+
+        private readonly string _fileName = "output.wav";
+        private readonly int _duration = 5;
+
+        private AudioClip _clip;
+        private bool _isRecording;
+        private float _time;
 
         private void Start()
         {
             recordButton.onClick.AddListener(StartRecording);
         }
-        
+
         private void StartRecording()
         {
-            isRecording = true;
+            _isRecording = true;
             recordButton.enabled = false;
-    
-            #if !UNITY_WEBGL
-            clip = Microphone.Start(Microphone.devices[0], false, duration, 44100);
-            #endif
+
+#if !UNITY_WEBGL
+            _clip = Microphone.Start(Microphone.devices[0], false, _duration, 44100);
+#endif
         }
 
         private async void EndRecording()
         {
             print("waiting whisper response");
             message.text = "...";
-            
-            #if !UNITY_WEBGL
+
+#if !UNITY_WEBGL
             Microphone.End(null);
-            #endif
-            
-            byte[] data = SaveWav.Save(fileName, clip);
-            
+#endif
+
+            byte[] data = SaveWav.Save(_fileName, _clip);
+
             var req = new CreateAudioTranscriptionsRequest
             {
-                FileData = new FileData() {Data = data, Name = "audio.wav"},
+                FileData = new FileData() { Data = data, Name = "audio.wav" },
                 Model = "whisper-1",
                 Language = "en"
             };
-            var res = await openai.CreateAudioTranscription(req);
+            var res = await ChatGptManager.instance.OpenAi.CreateAudioTranscription(req);
             GetComponent<ChatGptManager>().AskChatGPT(res.Text);
             progressBar.fillAmount = 0;
             message.text = res.Text;
@@ -61,18 +59,16 @@ namespace OpenAI
 
         private void Update()
         {
-            if (isRecording)
-            {
-                time += Time.deltaTime;
-                progressBar.fillAmount = time / duration;
-                
-                if (time >= duration)
-                {
-                    time = 0;
-                    isRecording = false;
-                    EndRecording();
-                }
-            }
+            if (!_isRecording) return;
+
+            _time += Time.deltaTime;
+            progressBar.fillAmount = _time / _duration;
+
+            if (_time < _duration) return;
+
+            _time = 0;
+            _isRecording = false;
+            EndRecording();
         }
     }
 }
