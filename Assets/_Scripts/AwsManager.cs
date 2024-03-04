@@ -5,15 +5,29 @@ using Amazon;
 using Amazon.Polly;
 using Amazon.Polly.Model;
 using Amazon.Runtime;
+using MyUtilities;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class AwsManager : MonoBehaviour
 {
-    public async void Speak(string message, AudioSource source, Action onTalk)
+    public static Action<string, AudioSource, Action> OnSpeak;
+    public static Action OnSpeakStart, OnSpeakStop;
+
+    private void OnEnable()
+    {
+        OnSpeak += Speak;
+    }
+
+    private void OnDisable()
+    {
+        OnSpeak -= Speak;
+    }
+
+    private async void Speak(string message, AudioSource source, Action onTalk)
     {
         var credentials =
-            new BasicAWSCredentials(ChatGptManager.instance.keys.aws_ak, ChatGptManager.instance.keys.aws_sk);
+            new BasicAWSCredentials(ChatGptManager.Instance.keys.aws_ak, ChatGptManager.Instance.keys.aws_sk);
         var client = new AmazonPollyClient(credentials, RegionEndpoint.EUCentral1);
 
         var request = new SynthesizeSpeechRequest()
@@ -40,9 +54,14 @@ public class AwsManager : MonoBehaviour
             var clip = DownloadHandlerAudioClip.GetContent(www);
             source.clip = clip;
             source.Play();
-            onTalk?.Invoke();
+            
+            OnSpeakStart?.Invoke();
+            StartCoroutine(Util.AudioWait(source, () => OnSpeakStop?.Invoke()));
+            
+            onTalk();
         }
     }
+
 
     private void WriteToFile(Stream stream)
     {

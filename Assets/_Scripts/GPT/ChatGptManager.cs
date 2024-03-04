@@ -5,48 +5,41 @@ using UnityEngine;
 using OpenAI;
 using TMPro;
 
-public class ChatGptManager : MonoBehaviour
+public class ChatGptManager : GenericSingletonClass<ChatGptManager>
 {
-    public static ChatGptManager instance;
-
     public AudioSource dogSource;
-    public AwsManager awsManager;
     public string pathToKeys;
     public Keys keys;
     public OpenAIApi OpenAi;
+    
+    private List<ChatMessage> _messages = new();
+    private string _gptResponse;
+    
+    [TextArea] [SerializeField] private string startingPrompt;
+    [SerializeField] private TextMeshProUGUI output;
 
-    private void Awake()
+    public static Action<string,bool> OnAskGpt;
+
+    private void OnEnable()
     {
-        instance = this;
         keys = new Keys(pathToKeys + "/keys.json" /*"C:/keys.json"*/);
         OpenAi = new OpenAIApi(keys.openai_sk, keys.openai_org);
+        
+        OnAskGpt += AskChatGpt;
     }
 
+    private void OnDisable()
+    {
+        OnAskGpt -= AskChatGpt;
+    }
 
-    private List<ChatMessage> _messages = new();
-
-    [TextArea] [SerializeField] private string startingPrompt;
-    private bool _logMessages;
-
-    [SerializeField] private TextMeshProUGUI output;
-    private string _gptResponse;
 
     private void Start()
     {
-        AskChatGPT(startingPrompt);
+        AskChatGpt(startingPrompt,false);
     }
 
-
-    public void TestSpeech(string prompt)
-    {
-        awsManager.Speak(prompt, dogSource, () =>
-        {
-            print("Playing sound");
-            output.text = _gptResponse;
-        });
-    }
-
-    public async void AskChatGPT(string text)
+    private async void AskChatGpt(string text,bool speak)
     {
         ChatMessage newMessage = new()
         {
@@ -68,22 +61,26 @@ public class ChatGptManager : MonoBehaviour
         var chatResponse = response.Choices[0].Message;
         _messages.Add(chatResponse);
 
-        if (!_logMessages)
-        {
-            _logMessages = true;
+        if (!speak)
             return;
-        }
+        GetResponse(chatResponse);
+    }
 
-        _gptResponse = chatResponse.Content;
-        print($"GPT: {_gptResponse}");
+    private void GetResponse(ChatMessage chatMessage)
+    {
+        _gptResponse = chatMessage.Content;
+        PlaySpeech(_gptResponse);
+        
+    }
 
-
-        awsManager.Speak(_gptResponse, dogSource, () =>
+    public void PlaySpeech(string prompt)
+    {
+        AwsManager.OnSpeak?.Invoke(prompt, dogSource, () =>
         {
-            print("Playing sound");
             output.text = _gptResponse;
         });
     }
+    
 }
 
 [Serializable]

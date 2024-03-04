@@ -157,7 +157,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dogSource: {fileID: 745421988}
-  awsManager: {fileID: 88314168}
   pathToKeys: C:/
   keys:
     aws_sk: 
@@ -180,7 +179,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 91003400}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &88314167
@@ -224,6 +224,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testSpeechText: I am ray, your best friend in the whole world. What do you want
     to do?
+--- !u!1 &91003399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 91003400}
+  - component: {fileID: 91003401}
+  m_Layer: 0
+  m_Name: AnimationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &91003400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91003399}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 88314166}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &91003401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91003399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c845cdcf32e7e3468db2d14a2090247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1714148098}
+  clipCrossFadeDuration: 0.1
+  animations:
+    idle: {fileID: 7400000, guid: 771155e621300884e99110e42fc98fc0, type: 2}
+    listening: {fileID: 7400000, guid: 73a0cab52f052ca4da34fd54490ba0eb, type: 2}
+    thinking: {fileID: 7400000, guid: 569cc11dcb9c2ae4bb0e8017059aeef8, type: 2}
+    explaining: {fileID: 7400000, guid: 639185b37aa9f4844a1978d31eeabbff, type: 2}
 --- !u!1 &97943418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,7 +1236,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4186198563983352162, guid: c07e8d66533ad6e428ca4d11cd20547b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1714148098}
   m_SourcePrefab: {fileID: 100100000, guid: c07e8d66533ad6e428ca4d11cd20547b, type: 3}
 --- !u!1 &993828683
 GameObject:
@@ -1370,7 +1425,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 88314165}
         m_TargetAssemblyTypeName: ChatGptManager, Assembly-CSharp
-        m_MethodName: AskChatGPT
+        m_MethodName: AskChatGpt
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2129,6 +2184,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1714148097 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4186198563983352162, guid: c07e8d66533ad6e428ca4d11cd20547b,
+    type: 3}
+  m_PrefabInstance: {fileID: 770462107}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1714148098
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714148097}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: abfc0aa60a2c28443a68266157a8b2a9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1727001843
 GameObject:
   m_ObjectHideFlags: 0

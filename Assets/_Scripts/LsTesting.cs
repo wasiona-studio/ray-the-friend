@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LSTesting : MonoBehaviour
+public class LsTesting : MonoBehaviour
 {
     [TextArea] [Tooltip("In play mode press 'S' to test the speech and lipsyncing")]
     [SerializeField] private string testSpeechText;
@@ -9,7 +9,7 @@ public class LSTesting : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            ChatGptManager.instance.TestSpeech(testSpeechText);
+            ChatGptManager.Instance.PlaySpeech(testSpeechText);
         }
     }
 }
