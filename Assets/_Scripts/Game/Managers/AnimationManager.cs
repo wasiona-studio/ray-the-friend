@@ -27,18 +27,16 @@ namespace RayTheFriend.Managers
         {
             AddEmotionsToStartPrompt();
         }
-
-
         public void TriggerEmotion(string key)
         {
+            print(key);
             var emotion = emotions.FirstOrDefault(a => a.key == key);
 
             if (emotion != null)
-                PlayAnimation(emotion.animationInfo);
+                PlayAnimation(emotion.animationData);
             else
                 Util.Log($"Key: {key} does not exist", Color.red, 12);
         }
-
         private void AddEmotionsToStartPrompt()
         {
             ChatGptManager.Instance.startingPrompt += "Use these tags as animation ques: ";
@@ -49,7 +47,6 @@ namespace RayTheFriend.Managers
 
             print(ChatGptManager.Instance.startingPrompt);
         }
-
         private void PlayAnimation(AnimationData animationDataToPlay)
         {
             animator.CrossFade(animationDataToPlay.clip.name, animationDataToPlay.clipCrossFadeDuration);

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   key: '#confirm#'
-  animation:
-    clip: {fileID: 7400000, guid: ec7a9a871d72b484babbc553e9235106, type: 2}
-    clipCrossFadeDuration: 0
+  animationData:
+    clip: {fileID: 4355235379835218934, guid: a383b54e4fae32e4a8aa0a73c507cf58, type: 3}
+    clipCrossFadeDuration: 0.5

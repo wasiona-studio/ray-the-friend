@@ -103,22 +103,20 @@ namespace RayTheFriend.GPT
         private void OnResponse(List<CreateChatCompletionResponse> responses)
         {
             if (isStartingPrompt) return;
-            
+
             var sentences = _parser.ParseSentence(responses);
-            
-            if(sentences == null) return;
-            
+
+            if (sentences == null) return;
+
             foreach (var s in sentences)
             {
-                
                 var newS = _parser.ParseEmotion(_animationManager.emotions, s,
-                    key => _animationManager.TriggerEmotion(key));
-                
+                    _animationManager.TriggerEmotion);
+
                 QueueSpeech(newS);
             }
 
             _parser.ClearParseInput();
-
         }
 
         private void OnFinish()
@@ -126,23 +124,29 @@ namespace RayTheFriend.GPT
             if (!isStartingPrompt) return;
             DOVirtual.DelayedCall(3, () => isStartingPrompt = false);
         }
+
         private void QueueSpeech(string message)
         {
-            AwsManager.OnSpeak?.Invoke(message, dogSource, () => { output.text += message; });
+            AwsManager.OnQueueSpeech?.Invoke(message, dogSource, () => { output.text += message; });
         }
+
         public void PlaySpeech(string message)
         {
-            AwsManager.OnSpeak?.Invoke(message, dogSource, null);
+            AwsManager.OnQueueSpeech?.Invoke(message, dogSource, null);
         }
+
         public void ConversationDone()
         {
             output.text = String.Empty;
         }
+
         private void OnApplicationQuit()
         {
             _token.Cancel();
         }
     }
+
+    #region Keys
 
     [Serializable]
     public class Keys
@@ -175,4 +179,6 @@ namespace RayTheFriend.GPT
             File.WriteAllText(path, savePlayerData);
         }
     }
+
+    #endregion
 }

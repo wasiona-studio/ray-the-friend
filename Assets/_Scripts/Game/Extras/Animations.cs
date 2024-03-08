@@ -8,11 +8,4 @@ namespace RayTheFriend.Extras
     {
         public AnimationData idle, listening, thinking, explaining;
     }
-
-    [Serializable]
-    public struct AnimationData
-    {
-        public AnimationClip clip;
-        public float clipCrossFadeDuration;
-    }
 }

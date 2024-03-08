@@ -4,6 +4,7 @@ using System.Linq;
 using MyUtilities;
 using OpenAI;
 using RayTheFriend.SO;
+using UnityEngine;
 
 namespace RayTheFriend.Extras
 {
@@ -26,7 +27,8 @@ namespace RayTheFriend.Extras
             foreach (var e in emotions)
             {
                 if (!sentence.Contains(e.key)) continue;
-
+                
+                Debug.Log(e.key);
                 onEmotionFound(e.key);
                 return sentence.Replace(e.key, "");
             }

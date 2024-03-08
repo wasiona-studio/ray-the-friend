@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Deny
   m_EditorClassIdentifier: 
   key: '#deny#'
-  animationInfo:
-    clip: {fileID: 6869518898052301942, guid: a383b54e4fae32e4a8aa0a73c507cf58, type: 3}
+  animationData:
+    clip: {fileID: -7881739814215078984, guid: b45374e1ca1da99428d7ced79bcd1572, type: 3}
     clipCrossFadeDuration: 0.2

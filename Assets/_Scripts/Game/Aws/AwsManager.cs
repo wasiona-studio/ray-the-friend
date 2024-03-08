@@ -16,7 +16,7 @@ namespace RayTheFriend.AWS
 {
     public class AwsManager : MonoBehaviour
     {
-        public static Action<string, AudioSource, Action> OnSpeak;
+        public static Action<string, AudioSource, Action> OnQueueSpeech;
         public static Action OnSpeakStart, OnSpeakStop;
 
         [SerializeField] private List<Speech> speechQueue = new();
@@ -25,12 +25,12 @@ namespace RayTheFriend.AWS
 
         private void OnEnable()
         {
-            OnSpeak += QueueSpeech;
+            OnQueueSpeech += QueueSpeech;
         }
 
         private void OnDisable()
         {
-            OnSpeak -= QueueSpeech;
+            OnQueueSpeech -= QueueSpeech;
         }
 
         #region Speech Queue

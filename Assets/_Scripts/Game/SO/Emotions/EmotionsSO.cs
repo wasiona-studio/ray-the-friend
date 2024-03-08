@@ -9,6 +9,6 @@ namespace RayTheFriend.SO
         [Tooltip("Write key in a '#key#' pattern")]
         public string key;
 
-        public AnimationData animationInfo;
+        public AnimationData animationData;
     }
 }
