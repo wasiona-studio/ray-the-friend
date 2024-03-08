@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30d2887ebcdc9d0448fcfdc59c395fb5, type: 3}
-  m_Name: Test
+  m_Name: Confirm
   m_EditorClassIdentifier: 
   key: '#confirm#'
   animationData:
-    clip: {fileID: 4355235379835218934, guid: a383b54e4fae32e4a8aa0a73c507cf58, type: 3}
-    clipCrossFadeDuration: 0.5
+    clip: {fileID: 7400000, guid: cf2579aaefbc29d4c84eb25b16b7c6f0, type: 2}
+    clipCrossFadeDuration: 0.2

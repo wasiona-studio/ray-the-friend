@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: '#deny#'
   animationData:
-    clip: {fileID: -7881739814215078984, guid: b45374e1ca1da99428d7ced79bcd1572, type: 3}
+    clip: {fileID: 7400000, guid: 4e2d65262c149914c978b41405b305b1, type: 2}
     clipCrossFadeDuration: 0.2

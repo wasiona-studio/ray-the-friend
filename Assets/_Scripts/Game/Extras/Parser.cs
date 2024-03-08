@@ -28,7 +28,6 @@ namespace RayTheFriend.Extras
             {
                 if (!sentence.Contains(e.key)) continue;
                 
-                Debug.Log(e.key);
                 onEmotionFound(e.key);
                 return sentence.Replace(e.key, "");
             }
