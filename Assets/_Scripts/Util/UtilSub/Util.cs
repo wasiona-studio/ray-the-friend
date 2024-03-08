@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityRandom = UnityEngine.Random;
@@ -158,6 +159,11 @@ namespace MyUtilities
         {
             yield return new WaitForSeconds(source.clip.length);
             onAudioFinish();
+        }
+        
+        public static string[] SplitIntoSentences(string input,string pattern)
+        {
+            return Regex.Split(input, pattern);
         }
     }
 }

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections;
+using OpenAI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OpenAI
+namespace RayTheFriend.GPT
 {
     public class Whisper : MonoBehaviour
     {
-        [SerializeField] private Button recordButton;
-        [SerializeField] private Image progressBar;
-        [SerializeField] private TextMeshProUGUI message;
+        [SerializeField] private SpeakingUi speakingUi;
 
         private readonly string _fileName = "output.wav";
         private readonly int _duration = 5;
@@ -20,10 +19,10 @@ namespace OpenAI
         private float _time;
 
         public static Action OnRecordingStart, OnRecordingEnd;
-        
+
         private void Start()
         {
-            recordButton.onClick.AddListener(OnRecordingStart.Invoke);
+            speakingUi.recordButton.onClick.AddListener(OnRecordingStart.Invoke);
         }
 
         private void OnEnable()
@@ -40,9 +39,9 @@ namespace OpenAI
 
         private void StartRecording()
         {
-            
             StartCoroutine(Recording());
-            recordButton.enabled = false;
+            speakingUi.recordButton.image.sprite = speakingUi.sprites.recording;
+            speakingUi.recordButton.interactable = false;
 
 #if !UNITY_WEBGL
             _clip = Microphone.Start(Microphone.devices[0], false, _duration, 44100);
@@ -51,8 +50,8 @@ namespace OpenAI
 
         private async void EndRecording()
         {
-            message.text = "...";
-
+            speakingUi.message.text = "...";
+            speakingUi.recordButton.image.sprite = speakingUi.sprites.thinking;
 #if !UNITY_WEBGL
             Microphone.End(null);
 #endif
@@ -66,12 +65,13 @@ namespace OpenAI
                 Language = "en"
             };
             var res = await ChatGptManager.Instance.OpenAi.CreateAudioTranscription(req);
-            
-            ChatGptManager.OnAskGpt?.Invoke(res.Text,true);
-            
-            message.text = res.Text;
-            progressBar.fillAmount = 0;
-            recordButton.enabled = true;
+
+            ChatGptManager.OnAskGpt?.Invoke(res.Text);
+
+            speakingUi.message.text = res.Text;
+            speakingUi.progressBar.fillAmount = 0;
+            speakingUi.recordButton.image.sprite = speakingUi.sprites.canRecord;
+            speakingUi.recordButton.interactable = true;
         }
 
         private IEnumerator Recording()
@@ -79,28 +79,28 @@ namespace OpenAI
             while (_time < _duration)
             {
                 _time += Time.deltaTime;
-                progressBar.fillAmount = _time / _duration;
-                
+                speakingUi.progressBar.fillAmount = _time / _duration;
+
                 yield return null;
             }
 
             _time = 0;
             OnRecordingEnd?.Invoke();
         }
-        
-        /*
-        private void Update()
+    }
+
+    [Serializable]
+    public class SpeakingUi
+    {
+        public Button recordButton;
+        public Image progressBar;
+        public TextMeshProUGUI message;
+        public Sprites sprites;
+
+        [Serializable]
+        public struct Sprites
         {
-            if (!_isRecording) return;
-
-            _time += Time.deltaTime;
-            progressBar.fillAmount = _time / _duration;
-
-            if (_time < _duration) return;
-
-            _time = 0;
-            _isRecording = false;
-            onRecordingEnd?.Invoke();
-        }*/
+            public Sprite canRecord, recording, thinking;
+        }
     }
 }
