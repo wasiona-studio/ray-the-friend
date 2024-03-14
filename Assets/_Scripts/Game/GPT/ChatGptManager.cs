@@ -65,6 +65,7 @@ namespace RayTheFriend.GPT
             };
 
             _messages.Add(newMessage);
+print(newMessage);
 
             OpenAi.CreateChatCompletionAsync(new CreateChatCompletionRequest()
             {
@@ -112,6 +113,7 @@ namespace RayTheFriend.GPT
             {
                 var newS = _parser.ParseEmotion(_animationManager.emotions, s,
                     _animationManager.TriggerEmotion);
+print(newS);
 
                 QueueSpeech(newS);
             }
