@@ -58,8 +58,6 @@ namespace RayTheFriend.Managers
             {
                 ChatGptManager.Instance.startingPrompt += emotion.key + ",";
             }
-
-            print(ChatGptManager.Instance.startingPrompt);
         }
 
         private void PlayAnimation(AnimationData animationDataToPlay)

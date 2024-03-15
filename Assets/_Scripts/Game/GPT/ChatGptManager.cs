@@ -18,8 +18,10 @@ namespace RayTheFriend.GPT
 
         public AudioSource dogSource;
         public string pathToKeys;
+        public string gptModel = "gpt-3.5-turbo-0125";
         public Keys keys;
         public OpenAIApi OpenAi;
+
 
         private readonly List<ChatMessage> _messages = new();
         private string _gptResponse;
@@ -34,6 +36,8 @@ namespace RayTheFriend.GPT
         private AnimationManager _animationManager;
 
         private readonly Parser _parser = new();
+
+        public bool streamResponse;
 
         private void OnEnable()
         {
@@ -56,8 +60,6 @@ namespace RayTheFriend.GPT
 
         private void AskChatGpt(string text)
         {
-            #region Streamed Response
-
             ChatMessage newMessage = new()
             {
                 Content = text,
@@ -66,39 +68,36 @@ namespace RayTheFriend.GPT
 
             _messages.Add(newMessage);
 
+            if (streamResponse) StreamedResponse();
+            else FullResponse();
+        }
+
+        private async void FullResponse()
+        {
+            CreateChatCompletionRequest request = new CreateChatCompletionRequest();
+
+            request.Messages = _messages;
+            request.Model = gptModel;
+
+            var response = await OpenAi.CreateChatCompletion(request);
+
+            if (response.Choices == null || response.Choices.Count <= 0) return;
+
+            var chatResponse = response.Choices[0].Message;
+            _messages.Add(chatResponse);
+
+            QueueSpeech(chatResponse.Content);
+        }
+
+        private void StreamedResponse()
+        {
             OpenAi.CreateChatCompletionAsync(new CreateChatCompletionRequest()
             {
-                Model = "gpt-3.5-turbo",
+                Model = gptModel,
                 Messages = _messages,
                 Stream = true
             }, OnResponse, OnFinish, _token);
-
-            #endregion
-
-            #region Wait for full Response
-
-            //this method needs to be async for the full response to work
-
-            /*CreateChatCompletionRequest request = new CreateChatCompletionRequest();
-    
-            request.Messages = _messages;
-            request.Model = "gpt-3.5-turbo-0125";
-    
-            var response = await OpenAi.CreateChatCompletion(request);
-    
-            if (response.Choices == null || response.Choices.Count <= 0) return;
-    
-            var chatResponse = response.Choices[0].Message;
-            _messages.Add(chatResponse);
-    
-            if (!speak)
-                return;
-                
-            PlaySpeech(chatResponse.Content);*/
-
-            #endregion
         }
-
 
         private void OnResponse(List<CreateChatCompletionResponse> responses)
         {
