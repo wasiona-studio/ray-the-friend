@@ -42,7 +42,7 @@ namespace RayTheFriend.Managers
             if (emotion != null)
             {
                 emotionAvailable = true;
-                PlayAnimation(emotion.animationData, () => { PlayAnimation(animations.idle); });
+                PlayAnimation(emotion.animationData, () => { PlayAnimation(animations.explaining); });
             }
             else
             {

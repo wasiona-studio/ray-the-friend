@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d2887ebcdc9d0448fcfdc59c395fb5, type: 3}
   m_Name: Angry
   m_EditorClassIdentifier: 
-  key: '#deny#'
+  key: '#angry#'
   animationData:
-    clip: {fileID: 7400000, guid: 4e2d65262c149914c978b41405b305b1, type: 2}
+    clip: {fileID: 7400000, guid: 261fba5c5eef0584c8259ee25b1d707c, type: 2}
     clipCrossFadeDuration: 0.2

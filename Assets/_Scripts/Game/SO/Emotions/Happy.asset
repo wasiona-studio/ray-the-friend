@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d2887ebcdc9d0448fcfdc59c395fb5, type: 3}
   m_Name: Happy
   m_EditorClassIdentifier: 
-  key: '#deny#'
+  key: '#happy#'
   animationData:
-    clip: {fileID: 7400000, guid: 4e2d65262c149914c978b41405b305b1, type: 2}
+    clip: {fileID: 7400000, guid: a43d8f125c72da249bdfe6d6ea1c930f, type: 2}
     clipCrossFadeDuration: 0.2
