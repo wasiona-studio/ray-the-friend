@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using OpenAI;
@@ -18,8 +19,10 @@ namespace RayTheFriend.GPT
 
         public AudioSource dogSource;
         public string pathToKeys;
+        public string gptModel = "gpt-3.5-turbo-0125";
         public Keys keys;
         public OpenAIApi OpenAi;
+
 
         private readonly List<ChatMessage> _messages = new();
         private string _gptResponse;
@@ -35,6 +38,8 @@ namespace RayTheFriend.GPT
 
         private readonly Parser _parser = new();
 
+        public bool streamResponse;
+        
         private void OnEnable()
         {
             keys = new Keys(pathToKeys + "/keys.json" /*"C:/keys.json"*/);
@@ -56,8 +61,6 @@ namespace RayTheFriend.GPT
 
         private void AskChatGpt(string text)
         {
-            #region Streamed Response
-
             ChatMessage newMessage = new()
             {
                 Content = text,
@@ -67,39 +70,36 @@ namespace RayTheFriend.GPT
             _messages.Add(newMessage);
 print(newMessage);
 
+            if (streamResponse) StreamedResponse();
+            else FullResponse();
+        }
+
+        private async void FullResponse()
+        {
+            CreateChatCompletionRequest request = new CreateChatCompletionRequest();
+
+            request.Messages = _messages;
+            request.Model = gptModel;
+
+            var response = await OpenAi.CreateChatCompletion(request);
+
+            if (response.Choices == null || response.Choices.Count <= 0) return;
+
+            var chatResponse = response.Choices[0].Message;
+            _messages.Add(chatResponse);
+
+            QueueSpeech(chatResponse.Content);
+        }
+
+        private void StreamedResponse()
+        {
             OpenAi.CreateChatCompletionAsync(new CreateChatCompletionRequest()
             {
-                Model = "gpt-3.5-turbo",
+                Model = gptModel,
                 Messages = _messages,
                 Stream = true
             }, OnResponse, OnFinish, _token);
-
-            #endregion
-
-            #region Wait for full Response
-
-            //this method needs to be async for the full response to work
-
-            /*CreateChatCompletionRequest request = new CreateChatCompletionRequest();
-    
-            request.Messages = _messages;
-            request.Model = "gpt-3.5-turbo-0125";
-    
-            var response = await OpenAi.CreateChatCompletion(request);
-    
-            if (response.Choices == null || response.Choices.Count <= 0) return;
-    
-            var chatResponse = response.Choices[0].Message;
-            _messages.Add(chatResponse);
-    
-            if (!speak)
-                return;
-                
-            PlaySpeech(chatResponse.Content);*/
-
-            #endregion
         }
-
 
         private void OnResponse(List<CreateChatCompletionResponse> responses)
         {
@@ -115,7 +115,7 @@ print(newMessage);
                     _animationManager.TriggerEmotion);
 print(newS);
 
-                QueueSpeech(newS);
+                QueueSpeech(newS,true);
             }
 
             _parser.ClearParseInput();
@@ -125,10 +125,14 @@ print(newS);
         {
             if (!isStartingPrompt) return;
             DOVirtual.DelayedCall(3, () => isStartingPrompt = false);
+            
         }
 
-        private void QueueSpeech(string message)
+        private async void QueueSpeech(string message, bool isEmotion = false)
         {
+            if (isEmotion)
+                await Task.Delay((int)(_animationManager.emotionToSpeakDelay * 1000),_token.Token);
+            
             AwsManager.OnQueueSpeech?.Invoke(message, dogSource, () => { output.text += message; });
         }
 
@@ -177,8 +181,8 @@ print(newS);
 
         private void SetKeysToJson(Keys keys, string path)
         {
-            var savePlayerData = JsonUtility.ToJson(keys);
-            File.WriteAllText(path, savePlayerData);
+            var keyData = JsonUtility.ToJson(keys);
+            File.WriteAllText(path, keyData);
         }
     }
 

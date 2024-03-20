@@ -17,7 +17,7 @@ namespace RayTheFriend.Managers
         [SerializeField] private Animations animations;
         [SerializeField] public List<EmotionsSO> emotions = new();
         private bool emotionAvailable;
-
+        [Tooltip("seconds")]public float emotionToSpeakDelay;
         private void OnEnable()
         {
             Whisper.OnRecordingStart += () => { PlayAnimation(animations.listening); };
@@ -58,8 +58,6 @@ namespace RayTheFriend.Managers
             {
                 ChatGptManager.Instance.startingPrompt += emotion.key + ",";
             }
-
-            print(ChatGptManager.Instance.startingPrompt);
         }
 
         private void PlayAnimation(AnimationData animationDataToPlay)
