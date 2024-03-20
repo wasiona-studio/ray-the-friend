@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using OpenAI;
@@ -38,7 +39,7 @@ namespace RayTheFriend.GPT
         private readonly Parser _parser = new();
 
         public bool streamResponse;
-
+        
         private void OnEnable()
         {
             keys = new Keys(pathToKeys + "/keys.json" /*"C:/keys.json"*/);
@@ -112,7 +113,7 @@ namespace RayTheFriend.GPT
                 var newS = _parser.ParseEmotion(_animationManager.emotions, s,
                     _animationManager.TriggerEmotion);
 
-                QueueSpeech(newS);
+                QueueSpeech(newS,true);
             }
 
             _parser.ClearParseInput();
@@ -122,10 +123,14 @@ namespace RayTheFriend.GPT
         {
             if (!isStartingPrompt) return;
             DOVirtual.DelayedCall(3, () => isStartingPrompt = false);
+            
         }
 
-        private void QueueSpeech(string message)
+        private async void QueueSpeech(string message, bool isEmotion = false)
         {
+            if (isEmotion)
+                await Task.Delay((int)(_animationManager.emotionToSpeakDelay * 1000),_token.Token);
+            
             AwsManager.OnQueueSpeech?.Invoke(message, dogSource, () => { output.text += message; });
         }
 
@@ -174,8 +179,8 @@ namespace RayTheFriend.GPT
 
         private void SetKeysToJson(Keys keys, string path)
         {
-            var savePlayerData = JsonUtility.ToJson(keys);
-            File.WriteAllText(path, savePlayerData);
+            var keyData = JsonUtility.ToJson(keys);
+            File.WriteAllText(path, keyData);
         }
     }
 

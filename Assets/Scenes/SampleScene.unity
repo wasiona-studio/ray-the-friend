@@ -158,6 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dogSource: {fileID: 745421988}
   pathToKeys: C:/
+  gptModel: gpt-3.5-turbo-0125
   keys:
     aws_sk: 
     aws_ak: 
@@ -293,6 +294,7 @@ MonoBehaviour:
   emotions:
   - {fileID: 11400000, guid: 54d16821bb099854d95e0a6a333fea09, type: 2}
   - {fileID: 11400000, guid: 466693463da567949985381c01562cf2, type: 2}
+  emotionAnimationDelay: 1
 --- !u!1 &97943418
 GameObject:
   m_ObjectHideFlags: 0
