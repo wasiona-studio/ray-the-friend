@@ -281,16 +281,16 @@ MonoBehaviour:
   animations:
     idle:
       clip: {fileID: 7400000, guid: eb121fc91b73e354ab3bbaef5a20fc75, type: 2}
-      clipCrossFadeDuration: 0.15
+      clipCrossFadeDuration: 0.4
     listening:
       clip: {fileID: 7400000, guid: cfc6a096aa1fed54694bae001b25096c, type: 2}
-      clipCrossFadeDuration: 0.05
+      clipCrossFadeDuration: 0.06
     thinking:
       clip: {fileID: 7400000, guid: 2f5068dcdb288d847b52e11da5ae1d9b, type: 2}
-      clipCrossFadeDuration: 0.15
+      clipCrossFadeDuration: 0.2
     explaining:
       clip: {fileID: 7400000, guid: 0c1442ba6e42a46498cbaa073f1df9b6, type: 2}
-      clipCrossFadeDuration: 0.15
+      clipCrossFadeDuration: 0.3
   emotions:
   - {fileID: 11400000, guid: 54d16821bb099854d95e0a6a333fea09, type: 2}
   - {fileID: 11400000, guid: 466693463da567949985381c01562cf2, type: 2}
@@ -298,7 +298,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 623037e6316a3184f95fea9598838872, type: 2}
   - {fileID: 11400000, guid: b6ca17fbbeb0a3741bd388f272162164, type: 2}
   - {fileID: 11400000, guid: 6fa8fa2d4d9b39645bf9b4ee2d01eb84, type: 2}
-  emotionToSpeakDelay: 1.2
+  emotionToSpeakDelay: 1.5
 --- !u!1 &97943418
 GameObject:
   m_ObjectHideFlags: 0

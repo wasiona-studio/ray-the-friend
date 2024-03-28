@@ -15,4 +15,4 @@ MonoBehaviour:
   key: '#scared#'
   animationData:
     clip: {fileID: 7400000, guid: 4cf7927d131a0304c91645ac0e2bcdea, type: 2}
-    clipCrossFadeDuration: 0.2
+    clipCrossFadeDuration: 0.1

@@ -15,4 +15,4 @@ MonoBehaviour:
   key: '#angry#'
   animationData:
     clip: {fileID: 7400000, guid: 261fba5c5eef0584c8259ee25b1d707c, type: 2}
-    clipCrossFadeDuration: 0.2
+    clipCrossFadeDuration: 0.1
