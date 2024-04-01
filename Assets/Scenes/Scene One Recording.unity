@@ -3356,13 +3356,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6190574137867914447, guid: c07e8d66533ad6e428ca4d11cd20547b,
         type: 3}
+      propertyPath: threshold
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190574137867914447, guid: c07e8d66533ad6e428ca4d11cd20547b,
+        type: 3}
       propertyPath: kissFactor
-      value: 1
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190574137867914447, guid: c07e8d66533ad6e428ca4d11cd20547b,
+        type: 3}
+      propertyPath: smoothness
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 6190574137867914447, guid: c07e8d66533ad6e428ca4d11cd20547b,
         type: 3}
       propertyPath: mouthOpenFactor
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190574137867914447, guid: c07e8d66533ad6e428ca4d11cd20547b,
+        type: 3}
+      propertyPath: vocalTractFactor
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190574137867914447, guid: c07e8d66533ad6e428ca4d11cd20547b,
+        type: 3}
+      propertyPath: kissBlendShapeNames.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6190574137867914447, guid: c07e8d66533ad6e428ca4d11cd20547b,
+        type: 3}
+      propertyPath: kissBlendShapeNames.Array.data[0]
+      value: Main_Face_BS.RL_Mouth_In
       objectReference: {fileID: 0}
     - target: {fileID: 6190574137867914447, guid: c07e8d66533ad6e428ca4d11cd20547b,
         type: 3}

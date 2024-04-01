@@ -1422,12 +1422,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d69bf5829b3f2ed4c822599483de0d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshold: 0.76
-  smoothness: 0.644
-  vocalTractFactor: 1
+  threshold: 0.5
+  smoothness: 0.8
+  vocalTractFactor: 0.8
   kissBlendShapeNames:
   - Main_Face_BS.L_Mouth_In
-  - Main_Face_BS.R_Mouth_In
   lipsClosedBlendShapeNames:
   - Main_Face_BS.L_DnLip
   - Main_Face_BS.L_UpLip
@@ -1438,9 +1437,9 @@ MonoBehaviour:
   - Main_Face_BS.L_UpLip
   - Main_Face_BS.R_UpLip
   - Main_Face_BS.R_DnLip
-  kissFactor: 0.55
-  lipsClosedFactor: 0.04
-  mouthOpenFactor: 3
+  kissFactor: 0.6
+  lipsClosedFactor: 0.2
+  mouthOpenFactor: 1
   spectrumVisualization: 0
 --- !u!82 &500249462078622757
 AudioSource:
